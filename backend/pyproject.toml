@@ -1,0 +1,28 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "../README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.19.2",
+    "bcrypt>=5.0.0",
+    "fastapi>=0.141.1",
+    "psycopg[binary]>=3.3.5",
+    "pydantic-settings>=2.15.0",
+    "pydantic[email]>=2.13.5",
+    "pyjwt>=2.13.0",
+    "sqlalchemy>=2.0.52",
+    "stripe>=15.6.1",
+    "uvicorn>=0.52.4",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+]
+
+[tool.coverage.run]
+data_file = ".coverage_data/.coverage"

@@ -1,0 +1,39 @@
+name: Backend Tests
+
+on: [push, pull_request]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:16-alpine
+                env:
+                    POSTGRES_USER: test
+                    POSTGRES_PASSWORD: test
+                    POSTGRES_DB: ecommerce_test
+                ports: ['5432:5432']
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 5
+            
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: astral-sh/setup-uv@v3
+              with:
+                enable-cache: true
+                cache-dependency-glob: 'backend/uv.lock'
+            
+            - working-directory: backend
+              run: uv sync
+            
+            - working-directory: backend
+              run: uv run pytest -v
+              env:
+                DATABASE_URL: postgresql+psycopg://test:test@localhost:5432/ecommerce_test
+                SECRET_KEY: test-secret
+                STRIPE_SECRET_KEY: sk_test_dummy
+                STRIPE_WEBHOOK_SECRET: whsec_dummy
