@@ -32,6 +32,7 @@ jobs:
             - run: uv run pytest -v
               env:
                 DATABASE_URL: postgresql+psycopg://test:test@localhost:5432/ecommerce_test
+                TEST_DATABASE_URL: postgresql+psycopg://test:test@localhost:5432/ecommerce_test
                 SECRET_KEY: test-secret
                 STRIPE_SECRET_KEY: sk_test_dummy
                 STRIPE_WEBHOOK_SECRET: whsec_dummy

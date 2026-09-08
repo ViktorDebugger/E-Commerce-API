@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -9,9 +11,9 @@ from db.base import Base
 from db.session import get_db
 from models.user import User
 
-env = dotenv_values(".env")
-TEST_DATABASE_URL = env["TEST_DATABASE_URL"]
-assert TEST_DATABASE_URL is not None, "TEST_DATABASE_URL not set in .env"
+env = {**dotenv_values(".env"), **os.environ}
+TEST_DATABASE_URL = env.get("TEST_DATABASE_URL")
+assert TEST_DATABASE_URL is not None, "TEST_DATABASE_URL not set in .env or environment"
 
 engine = create_engine(TEST_DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
